@@ -4,8 +4,20 @@ import { getToken } from 'next-auth/jwt'
 export async function middleware(request) {
   const path = request.nextUrl.pathname
 
-  // Protect dashboard routes
-  if (path.startsWith('/dashboard') || path.startsWith('/studio')) {
+  // Protect authenticated routes
+  const protectedRoutes = [
+    '/dashboard',
+    '/studio',
+    '/history',
+    '/workflows',
+    '/templates',
+    '/prompt-guides',
+    '/tools/image-composer' // AI Composer requires auth (costs credits)
+  ]
+
+  const isProtected = protectedRoutes.some(route => path.startsWith(route))
+
+  if (isProtected) {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET
@@ -31,6 +43,11 @@ export const config = {
   matcher: [
     '/dashboard/:path*',
     '/studio/:path*',
+    '/history/:path*',
+    '/workflows/:path*',
+    '/templates/:path*',
+    '/prompt-guides/:path*',
+    '/tools/:path*',
     '/api/:path*'
   ]
 }

@@ -60,13 +60,22 @@ const quickActions = [
     tools: ['Browse Templates', 'Prompt Guides', 'Tutorials']
   },
   {
-    title: 'Image Combiner',
+    title: 'Image Collage',
     description: 'Combine multiple images - no credits',
     icon: Grid3x3,
     color: 'bg-cyan-500',
     href: '/tools/image-combiner',
     tools: ['Grid Layouts', 'Collage', 'Free Tool'],
     badge: 'FREE'
+  },
+  {
+    title: 'AI Image Composer',
+    description: 'Merge subject & product intelligently',
+    icon: Sparkles,
+    color: 'bg-pink-500',
+    href: '/tools/image-composer',
+    tools: ['Product Photos', 'AI-Powered', 'Professional'],
+    badge: '20 CR'
   }
 ]
 
@@ -151,63 +160,63 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-4 py-4 md:py-8 max-w-7xl">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">
           Welcome back, {session.user.name}! 👋
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm md:text-base text-muted-foreground">
           Your AI-powered visual studio dashboard
         </p>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <Card className="p-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+        <Card className="p-3 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Credits Available</p>
-              <p className="text-3xl font-bold">{session.user.credits || 100}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Credits</p>
+              <p className="text-xl md:text-3xl font-bold">{session.user.credits || 100}</p>
             </div>
-            <div className="p-3 bg-blue-500/10 rounded-full">
-              <Zap className="w-6 h-6 text-blue-500" />
+            <div className="p-2 md:p-3 bg-blue-500/10 rounded-full">
+              <Zap className="w-4 h-4 md:w-6 md:h-6 text-blue-500" />
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-3 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Total Projects</p>
-              <p className="text-3xl font-bold">{statsData.totalJobs}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Projects</p>
+              <p className="text-xl md:text-3xl font-bold">{statsData.totalJobs}</p>
             </div>
-            <div className="p-3 bg-purple-500/10 rounded-full">
-              <ImageIcon className="w-6 h-6 text-purple-500" />
+            <div className="p-2 md:p-3 bg-purple-500/10 rounded-full">
+              <ImageIcon className="w-4 h-4 md:w-6 md:h-6 text-purple-500" />
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-3 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">This Month</p>
-              <p className="text-3xl font-bold">{statsData.thisMonth}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">This Month</p>
+              <p className="text-xl md:text-3xl font-bold">{statsData.thisMonth}</p>
             </div>
-            <div className="p-3 bg-green-500/10 rounded-full">
-              <TrendingUp className="w-6 h-6 text-green-500" />
+            <div className="p-2 md:p-3 bg-green-500/10 rounded-full">
+              <TrendingUp className="w-4 h-4 md:w-6 md:h-6 text-green-500" />
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-3 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Credits Used</p>
-              <p className="text-3xl font-bold">{statsData.creditsUsed}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Used</p>
+              <p className="text-xl md:text-3xl font-bold">{statsData.creditsUsed}</p>
             </div>
-            <div className="p-3 bg-orange-500/10 rounded-full">
-              <Sparkles className="w-6 h-6 text-orange-500" />
+            <div className="p-2 md:p-3 bg-orange-500/10 rounded-full">
+              <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-orange-500" />
             </div>
           </div>
         </Card>
@@ -215,14 +224,14 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <h2 className="text-xl md:text-2xl font-bold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {quickActions.map((action) => (
             <Link key={action.title} href={action.href}>
-              <Card className="p-6 hover:shadow-lg transition-all cursor-pointer group h-full">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 ${action.color} rounded-lg group-hover:scale-110 transition-transform`}>
-                    <action.icon className="w-6 h-6 text-white" />
+              <Card className="p-4 md:p-6 hover:shadow-lg transition-all cursor-pointer group h-full">
+                <div className="flex items-start justify-between mb-3 md:mb-4">
+                  <div className={`p-2 md:p-3 ${action.color} rounded-lg group-hover:scale-110 transition-transform`}>
+                    <action.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                   </div>
                   {action.badge && (
                     <Badge variant="secondary" className="bg-green-500 text-white text-xs">
@@ -230,10 +239,10 @@ export default function DashboardPage() {
                     </Badge>
                   )}
                 </div>
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-sm md:text-base font-semibold mb-2 group-hover:text-primary transition-colors">
                   {action.title}
                 </h3>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-xs md:text-sm text-muted-foreground mb-3">
                   {action.description}
                 </p>
                 <div className="flex flex-wrap gap-1">
