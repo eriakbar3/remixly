@@ -22,7 +22,8 @@ import {
   Briefcase,
   LayoutTemplate,
   Workflow,
-  BookOpen
+  BookOpen,
+  Grid3x3
 } from 'lucide-react'
 
 export function Navbar() {
@@ -100,6 +101,13 @@ export function Navbar() {
                 <Button variant="ghost" size="sm">
                   <BookOpen className="w-4 h-4 mr-2" />
                   Prompt Guides
+                </Button>
+              </Link>
+
+              <Link href="/tools/image-combiner">
+                <Button variant="ghost" size="sm">
+                  <Grid3x3 className="w-4 h-4 mr-2" />
+                  Image Combiner
                 </Button>
               </Link>
             </>

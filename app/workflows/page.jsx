@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import WorkflowBuilder from '@/components/WorkflowBuilder'
+import WorkflowExecutionModal from '@/components/WorkflowExecutionModal'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -25,6 +26,8 @@ export default function WorkflowsPage() {
   const [showBuilder, setShowBuilder] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editingWorkflow, setEditingWorkflow] = useState(null)
+  const [selectedWorkflow, setSelectedWorkflow] = useState(null)
+  const [showExecutionModal, setShowExecutionModal] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -72,24 +75,33 @@ export default function WorkflowsPage() {
     }
   }
 
-  const handleExecuteWorkflow = async (workflow) => {
-    const imageUrl = prompt('Enter image URL to process:')
-    if (!imageUrl) return
+  const handleExecuteWorkflow = (workflow) => {
+    setSelectedWorkflow(workflow)
+    setShowExecutionModal(true)
+  }
 
+  const executeWorkflow = async (input, inputType) => {
     try {
-      // First save the workflow if it's new
-      let workflowId = workflow.id
+      let inputUrl
 
-      if (!workflowId) {
-        const saveResponse = await fetch('/api/workflows', {
+      // If file upload, upload first
+      if (inputType === 'upload') {
+        const uploadFormData = new FormData()
+        uploadFormData.append('image', input)
+
+        const uploadRes = await fetch('/api/upload', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(workflow)
+          body: uploadFormData
         })
-        const saveData = await saveResponse.json()
-        if (saveData.success) {
-          workflowId = saveData.workflow.id
+
+        const uploadData = await uploadRes.json()
+        if (!uploadRes.ok) {
+          throw new Error(uploadData.error || 'Failed to upload image')
         }
+
+        inputUrl = uploadData.url
+      } else {
+        inputUrl = input
       }
 
       // Execute workflow
@@ -97,8 +109,8 @@ export default function WorkflowsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          workflowId,
-          inputUrl: imageUrl
+          workflowId: selectedWorkflow.id,
+          inputUrl
         })
       })
 
@@ -107,12 +119,13 @@ export default function WorkflowsPage() {
       if (data.success) {
         alert(`Workflow executed successfully! Credits used: ${data.execution.creditsUsed}`)
         window.open(data.execution.outputUrl, '_blank')
+        loadWorkflows() // Reload to update execution count
       } else {
-        alert('Failed to execute workflow: ' + data.error)
+        throw new Error(data.error || 'Failed to execute workflow')
       }
     } catch (error) {
-      alert('Error executing workflow')
-      console.error(error)
+      console.error('Error executing workflow:', error)
+      throw error
     }
   }
 
@@ -287,24 +300,7 @@ export default function WorkflowsPage() {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      onClick={() => {
-                        const imageUrl = prompt('Enter image URL:')
-                        if (imageUrl) {
-                          fetch('/api/workflows/execute', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              workflowId: workflow.id,
-                              inputUrl: imageUrl
-                            })
-                          }).then(res => res.json()).then(data => {
-                            if (data.success) {
-                              alert('Success! Credits used: ' + data.execution.creditsUsed)
-                              window.open(data.execution.outputUrl, '_blank')
-                            }
-                          })
-                        }
-                      }}
+                      onClick={() => handleExecuteWorkflow(workflow)}
                       className="flex-1"
                     >
                       <Play className="w-4 h-4 mr-1" />
@@ -331,6 +327,14 @@ export default function WorkflowsPage() {
           )}
         </>
       )}
+
+      {/* Execution Modal */}
+      <WorkflowExecutionModal
+        open={showExecutionModal}
+        onClose={() => setShowExecutionModal(false)}
+        workflow={selectedWorkflow}
+        onExecute={executeWorkflow}
+      />
     </div>
   )
 }

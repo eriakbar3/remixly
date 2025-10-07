@@ -21,7 +21,8 @@ import {
   ArrowRight,
   Plus,
   Star,
-  Zap
+  Zap,
+  Grid3x3
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -57,6 +58,15 @@ const quickActions = [
     color: 'bg-orange-500',
     href: '/templates',
     tools: ['Browse Templates', 'Prompt Guides', 'Tutorials']
+  },
+  {
+    title: 'Image Combiner',
+    description: 'Combine multiple images - no credits',
+    icon: Grid3x3,
+    color: 'bg-cyan-500',
+    href: '/tools/image-combiner',
+    tools: ['Grid Layouts', 'Collage', 'Free Tool'],
+    badge: 'FREE'
   }
 ]
 
@@ -206,12 +216,19 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {quickActions.map((action) => (
             <Link key={action.title} href={action.href}>
               <Card className="p-6 hover:shadow-lg transition-all cursor-pointer group h-full">
-                <div className={`p-3 ${action.color} rounded-lg w-fit mb-4 group-hover:scale-110 transition-transform`}>
-                  <action.icon className="w-6 h-6 text-white" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-3 ${action.color} rounded-lg group-hover:scale-110 transition-transform`}>
+                    <action.icon className="w-6 h-6 text-white" />
+                  </div>
+                  {action.badge && (
+                    <Badge variant="secondary" className="bg-green-500 text-white text-xs">
+                      {action.badge}
+                    </Badge>
+                  )}
                 </div>
                 <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                   {action.title}

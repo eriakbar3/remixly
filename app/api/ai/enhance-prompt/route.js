@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
+import { GoogleGenAI } from '@google/genai'
 
-const { GoogleGenerativeAI } = require('@google/genai')
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY)
 
 export async function POST(req) {
   try {
