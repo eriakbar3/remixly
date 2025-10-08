@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -128,45 +129,48 @@ export default function LandingPage() {
 
   const pricingPlans = [
     {
-      name: 'Starter',
-      price: 'Free',
+      name: 'Starter Pack',
+      price: 'Rp50.000',
       credits: '100',
+      savings: null,
       features: [
-        '100 free credits to start',
-        'Access to all AI tools',
-        'Basic image quality',
-        'Community support'
+        'Perfect for trying out',
+        '10-20 AI generations',
+        'All features included',
+        'No expiration'
       ],
-      cta: 'Start Free',
+      cta: 'Buy Now',
       highlighted: false
     },
     {
-      name: 'Pro',
-      price: '$29',
+      name: 'Popular Pack',
+      price: 'Rp200.000',
       credits: '500',
+      savings: '20%',
       features: [
-        '500 credits per month',
-        'Priority processing',
-        'High-resolution exports',
-        'Premium templates',
-        'Email support'
+        'Most popular choice',
+        '50-100 AI generations',
+        'All features included',
+        'No expiration',
+        'Save 20%'
       ],
-      cta: 'Get Pro',
+      cta: 'Buy Now',
       highlighted: true
     },
     {
-      name: 'Business',
-      price: '$99',
-      credits: '2000',
+      name: 'Pro Pack',
+      price: 'Rp350.000',
+      credits: '1000',
+      savings: '30%',
       features: [
-        '2000 credits per month',
-        'Fastest processing',
-        '4K resolution exports',
-        'Custom workflows',
-        'Dedicated support',
-        'Team collaboration'
+        'For power users',
+        '100-200 AI generations',
+        'All features included',
+        'No expiration',
+        'Save 30%',
+        'Priority support'
       ],
-      cta: 'Go Business',
+      cta: 'Buy Now',
       highlighted: false
     }
   ]
@@ -174,22 +178,27 @@ export default function LandingPage() {
   const beforeAfterExamples = [
     {
       title: 'LinkedIn Headshot',
-      before: '📸 Casual selfie',
-      after: '✨ Professional studio shot',
+      image: '/asset/linkedin-shot.png',
       description: 'Transform casual photos into career-boosting headshots'
     },
     {
       title: 'Product Photography',
-      before: '📦 Plain background',
-      after: '✨ Magazine-quality setup',
+      image: '/asset/product-photography.png',
       description: 'Elevate product images with AI-powered enhancements'
     },
     {
       title: 'Content Creation',
-      before: '👔 Single outfit',
-      after: '✨ 10+ style variations',
+      image: '/asset/content-creation.png',
       description: 'Generate unlimited content variations from one photo'
     }
+  ]
+
+  const showcaseImages = [
+    { src: '/asset/asset-1.png', alt: 'AI Generated Image 1' },
+    { src: '/asset/asset-2.png', alt: 'AI Generated Image 2' },
+    { src: '/asset/asset-3.png', alt: 'AI Generated Image 3' },
+    { src: '/asset/asset-4.png', alt: 'AI Generated Image 4' },
+    { src: '/asset/asset-5.png', alt: 'AI Generated Image 5' }
   ]
 
   return (
@@ -212,7 +221,7 @@ export default function LandingPage() {
               <Button variant="ghost" size="sm">Log In</Button>
             </Link>
             <Link href="/auth/register">
-              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Register Now
               </Button>
@@ -227,7 +236,7 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-6 text-sm px-4 py-1.5" variant="secondary">
               <Sparkles className="w-3 h-3 mr-1.5" />
-              Powered by Google Gemini 2.0 Flash
+              Powered by Google Gemini
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -240,7 +249,7 @@ export default function LandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <Link href="/auth/register">
-                <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
                   <Zap className="w-5 h-5 mr-2" />
                   Get 100 Free Credits
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -269,23 +278,25 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Visual Placeholder */}
-          <div className="mt-12 max-w-5xl mx-auto">
-            <Card className="overflow-hidden shadow-2xl border-2">
-              <CardContent className="p-0">
-                <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-gray-800 dark:to-purple-900/30 flex items-center justify-center">
-                  <div className="text-center">
-                    <ImageIcon className="w-20 h-20 mx-auto mb-4 text-blue-500" />
-                    <p className="text-lg font-semibold text-muted-foreground">
-                      Remixly Interface Preview
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Upload → AI Process → Professional Result
-                    </p>
+          {/* Hero Visual - Image Showcase */}
+          <div className="mt-12 max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {showcaseImages.map((img, index) => (
+                <Card key={index} className="overflow-hidden hover:shadow-xl transition-all group">
+                  <div className="relative aspect-square">
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 20vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading={index < 3 ? "eager" : "lazy"}
+                      quality={85}
+                    />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -434,14 +445,18 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {beforeAfterExamples.map((example, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-xl transition-all">
+              <Card key={index} className="overflow-hidden hover:shadow-xl transition-all group">
                 <CardContent className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center">
-                    <div className="text-center p-6">
-                      <div className="text-4xl mb-4">{example.before}</div>
-                      <div className="text-2xl text-purple-500 mb-4">↓</div>
-                      <div className="text-4xl">{example.after}</div>
-                    </div>
+                  <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+                    <Image
+                      src={example.image}
+                      alt={example.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      quality={85}
+                    />
                   </div>
                   <div className="p-6">
                     <h3 className="font-bold text-lg mb-2">{example.title}</h3>
@@ -544,21 +559,25 @@ export default function LandingPage() {
             {pricingPlans.map((plan, index) => (
               <Card
                 key={index}
-                className={`hover:shadow-xl transition-all ${plan.highlighted ? 'border-2 border-blue-500 shadow-lg scale-105' : ''}`}
+                className={`hover:shadow-xl transition-all ${plan.highlighted ? 'border-2 border-purple-500 shadow-lg scale-105' : ''}`}
               >
                 <CardContent className="p-8">
                   {plan.highlighted && (
-                    <Badge className="mb-4 bg-blue-500">Most Popular</Badge>
+                    <Badge className="mb-4 bg-purple-500">Most Popular</Badge>
                   )}
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                  <div className="mb-6">
+                  <div className="mb-4">
                     <span className="text-4xl font-bold">{plan.price}</span>
-                    {plan.price !== 'Free' && <span className="text-muted-foreground">/month</span>}
                   </div>
                   <div className="mb-6">
-                    <Badge variant="outline" className="text-sm">
+                    <Badge variant="outline" className="text-sm font-normal">
                       {plan.credits} credits
                     </Badge>
+                    {plan.savings && (
+                      <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">
+                        Save {plan.savings}
+                      </Badge>
+                    )}
                   </div>
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
@@ -568,9 +587,9 @@ export default function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link href="/auth/register">
+                  <Link href="/credits">
                     <Button
-                      className={`w-full ${plan.highlighted ? 'bg-gradient-to-r from-blue-600 to-purple-600' : ''}`}
+                      className={`w-full ${plan.highlighted ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : ''}`}
                       variant={plan.highlighted ? 'default' : 'outline'}
                     >
                       {plan.cta}

@@ -22,16 +22,35 @@ import {
   Plus,
   Star,
   Zap,
-  Grid3x3
+  Grid3x3,
+  Palette
 } from 'lucide-react'
 import Link from 'next/link'
 
 const quickActions = [
   {
+    title: 'AI Image Generator',
+    description: 'Generate images from text descriptions',
+    icon: Sparkles,
+    color: 'bg-purple-500',
+    href: '/tools/image-generator',
+    tools: ['Text-to-Image', 'AI-Powered', 'Professional'],
+    badge: '15 CR'
+  },
+  {
+    title: 'Custom Edit',
+    description: 'Upload & edit with AI instructions',
+    icon: Palette,
+    color: 'bg-blue-500',
+    href: '/tools/custom-edit',
+    tools: ['AI Editing', 'Natural Results', 'Any Changes'],
+    badge: '12 CR'
+  },
+  {
     title: 'AI Photo Editor',
     description: 'Enhance and retouch existing photos',
     icon: ImageIcon,
-    color: 'bg-blue-500',
+    color: 'bg-cyan-500',
     href: '/studio/photo-editor',
     tools: ['Image Enhancer', 'Background Remover', 'Photo Restoration']
   },
@@ -39,7 +58,7 @@ const quickActions = [
     title: 'AI Content Generator',
     description: 'Create new and transformative media',
     icon: Wand2,
-    color: 'bg-purple-500',
+    color: 'bg-indigo-500',
     href: '/studio/content-generator',
     tools: ['Outfit Changer', 'Pose Generator', 'Background Replacer']
   },
@@ -54,7 +73,7 @@ const quickActions = [
   {
     title: 'AI Image Composer',
     description: 'Merge subject & product intelligently',
-    icon: Sparkles,
+    icon: Grid3x3,
     color: 'bg-pink-500',
     href: '/tools/image-composer',
     tools: ['Product Photos', 'AI-Powered', 'Professional'],
@@ -241,8 +260,52 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Recent Projects & Suggested Templates */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Latest Generated Images */}
+      {jobs.filter(j => j.status === 'completed' && j.outputUrl).length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl md:text-2xl font-bold flex items-center gap-2">
+              <ImageIcon className="w-6 h-6" />
+              Latest Creations
+            </h2>
+            <Link href="/history">
+              <Button variant="ghost" size="sm">
+                View All <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {jobs
+              .filter(j => j.status === 'completed' && j.outputUrl)
+              .slice(0, 4)
+              .map((job) => (
+                <Link key={job.id} href="/history">
+                  <Card className="overflow-hidden hover:shadow-lg transition-all cursor-pointer group">
+                    <div className="aspect-square relative bg-muted">
+                      <img
+                        src={job.outputUrl}
+                        alt="Generated"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                    </div>
+                    <div className="p-3">
+                      <p className="text-xs font-medium truncate capitalize">
+                        {job.type ? job.type.replace(/_/g, ' ') : 'AI Generation'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(job.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent Projects */}
+      <div className="grid grid-cols-1 gap-6">
         {/* Recent Projects */}
         <div>
           <div className="flex items-center justify-between mb-4">
@@ -297,42 +360,6 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Suggested Templates */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-500" />
-              Suggested Templates
-            </h2>
-            <Link href="/templates">
-              <Button variant="ghost" size="sm">
-                Browse All <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            {suggestedTemplates.map((template) => (
-              <Card
-                key={template.name}
-                className="p-4 hover:border-primary transition-all cursor-pointer group"
-              >
-                <div className="text-center">
-                  <div className="text-4xl mb-2">{template.icon}</div>
-                  <h4 className="font-semibold text-sm mb-1">{template.name}</h4>
-                  <Badge variant="secondary" className="text-xs">
-                    {template.credits} credits
-                  </Badge>
-                  {template.popular && (
-                    <Badge className="ml-1 text-xs bg-yellow-500">
-                      Popular
-                    </Badge>
-                  )}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   )

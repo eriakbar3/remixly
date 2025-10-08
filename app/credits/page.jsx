@@ -264,13 +264,13 @@ export default function CreditsPage() {
                   <pkg.icon className="w-6 h-6 text-white" />
                 </div>
                 <CardTitle className="text-xl">{pkg.name}</CardTitle>
-                <CardDescription>
-                  <div className="flex items-baseline gap-1 mt-2">
+                <div className="mt-4 space-y-3">
+                  <div className="flex items-baseline gap-1">
                     <span className="text-3xl font-bold text-foreground">
                       Rp{pkg.price.toLocaleString('id-ID')}
                     </span>
                   </div>
-                  <div className="mt-1">
+                  <div>
                     <Badge variant="secondary" className="font-normal">
                       {pkg.credits} credits
                     </Badge>
@@ -280,10 +280,10 @@ export default function CreditsPage() {
                       </Badge>
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-xs text-muted-foreground">
                     Rp{pkg.pricePerCredit.toLocaleString('id-ID')} per credit
                   </p>
-                </CardDescription>
+                </div>
               </CardHeader>
 
               <CardContent>
