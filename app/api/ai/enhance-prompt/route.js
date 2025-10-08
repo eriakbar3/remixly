@@ -15,10 +15,11 @@ export async function POST(req) {
         { status: 401 }
       )
     }
+    const payload = await req.json()
+    console.log('Payload:', payload)
+    const { prompt, operation } = payload
 
-    const { prompt, operation } = await req.json()
-
-    if (!prompt || !operation) {
+    if (!prompt) {
       return NextResponse.json(
         { error: 'Missing prompt or operation' },
         { status: 400 }
@@ -35,9 +36,7 @@ export async function POST(req) {
     }
 
     const instruction = operationInstructions[operation] || 'Enhance this prompt with more specific and detailed descriptions.'
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-exp',
+    const generationConfig = {
       systemInstruction: `You are an expert prompt engineer for AI image generation and manipulation. Your task is to take a basic prompt and enhance it with specific, detailed, and effective descriptions that will produce better AI results.
 
 ${instruction}
@@ -49,10 +48,31 @@ Rules:
 - Use professional, clear language
 - Do not add unrelated elements
 - Return only the enhanced prompt without explanations or prefixes`
-    })
+    };
+    const model = "gemini-flash-latest"
+    const requPrompt = {
+        model: model,
+        contents: [
+          {role: 'user', parts: [{text: prompt}]}
+        ],
+        config: generationConfig,
+    };
 
-    const result = await model.generateContent(prompt)
-    const enhancedPrompt = result.response.text().trim()
+
+    const result = await genAI.models.generateContent(requPrompt)
+
+    // Extract text from response
+    let enhancedPrompt = ''
+    if (result.candidates && result.candidates[0]?.content?.parts) {
+      enhancedPrompt = result.candidates[0].content.parts
+        .map(part => part.text || '')
+        .join('')
+        .trim()
+    } else if (result.text) {
+      enhancedPrompt = result.text().trim()
+    } else {
+      throw new Error('No text in response')
+    }
 
     return NextResponse.json({
       success: true,

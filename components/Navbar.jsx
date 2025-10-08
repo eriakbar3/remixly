@@ -25,7 +25,8 @@ import {
   BookOpen,
   Grid3x3,
   Sparkles,
-  Images
+  Images,
+  Palette
 } from 'lucide-react'
 
 export function Navbar() {
@@ -96,9 +97,36 @@ export function Navbar() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="w-56">
+                    <Link href="/tools/image-generator">
+                      <DropdownMenuItem>
+                        <Sparkles className="w-4 h-4 mr-2 text-purple-500" />
+                        <div>
+                          <p className="font-medium">AI Image Generator</p>
+                          <p className="text-xs text-muted-foreground">Generate from text (15 credits)</p>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link href="/tools/custom-edit">
+                      <DropdownMenuItem>
+                        <Palette className="w-4 h-4 mr-2 text-blue-500" />
+                        <div>
+                          <p className="font-medium">Custom Edit</p>
+                          <p className="text-xs text-muted-foreground">AI-powered editing (12 credits)</p>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link href="/tools/image-composer">
+                      <DropdownMenuItem>
+                        <Grid3x3 className="w-4 h-4 mr-2 text-pink-500" />
+                        <div>
+                          <p className="font-medium">AI Composer</p>
+                          <p className="text-xs text-muted-foreground">Compose images (20 credits)</p>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
                     <Link href="/history">
                       <DropdownMenuItem>
-                        <Images className="w-4 h-4 mr-2 text-blue-500" />
+                        <Images className="w-4 h-4 mr-2 text-green-500" />
                         <div>
                           <p className="font-medium">Gallery</p>
                           <p className="text-xs text-muted-foreground">View your images</p>
@@ -111,15 +139,6 @@ export function Navbar() {
                         <div>
                           <p className="font-medium">Prompt Guides</p>
                           <p className="text-xs text-muted-foreground">Learn prompting</p>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href="/tools/image-composer">
-                      <DropdownMenuItem>
-                        <Sparkles className="w-4 h-4 mr-2 text-pink-500" />
-                        <div>
-                          <p className="font-medium">AI Composer</p>
-                          <p className="text-xs text-muted-foreground">20 credits</p>
                         </div>
                       </DropdownMenuItem>
                     </Link>
@@ -246,6 +265,24 @@ export function Navbar() {
 
             <div className="pl-4 space-y-1">
               <p className="text-xs font-semibold text-muted-foreground mb-2">Tools</p>
+              <Link href="/tools/image-generator" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
+                  <Sparkles className="w-3 h-3 mr-2" />
+                  AI Image Generator
+                </Button>
+              </Link>
+              <Link href="/tools/custom-edit" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
+                  <Palette className="w-3 h-3 mr-2" />
+                  Custom Edit
+                </Button>
+              </Link>
+              <Link href="/tools/image-composer" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
+                  <Grid3x3 className="w-3 h-3 mr-2" />
+                  AI Composer
+                </Button>
+              </Link>
               <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
                   <Images className="w-3 h-3 mr-2" />
@@ -256,12 +293,6 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
                   <BookOpen className="w-3 h-3 mr-2" />
                   Prompt Guides
-                </Button>
-              </Link>
-              <Link href="/tools/image-composer" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
-                  <Sparkles className="w-3 h-3 mr-2" />
-                  AI Composer
                 </Button>
               </Link>
             </div>
