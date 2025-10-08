@@ -402,7 +402,7 @@ export default function LandingPage() {
               Everything You Need to Create Stunning Visuals
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Professional-grade tools powered by Google Gemini 2.0 Flash
+              Professional-grade tools powered by Google Gemini
             </p>
           </div>
 
