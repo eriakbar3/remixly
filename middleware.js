@@ -12,7 +12,8 @@ export async function middleware(request) {
     '/workflows',
     '/templates',
     '/prompt-guides',
-    '/tools/image-composer' // AI Composer requires auth (costs credits)
+    '/tools/image-composer', // AI Composer requires auth (costs credits)
+    '/credits' // Credits page requires auth
   ]
 
   const isProtected = protectedRoutes.some(route => path.startsWith(route))
@@ -48,6 +49,7 @@ export const config = {
     '/templates/:path*',
     '/prompt-guides/:path*',
     '/tools/:path*',
+    '/credits/:path*',
     '/api/:path*'
   ]
 }

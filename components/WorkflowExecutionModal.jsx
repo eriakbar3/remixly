@@ -112,17 +112,20 @@ export default function WorkflowExecutionModal({
 
   if (!workflow) return null
 
-  const steps = workflow.steps ? JSON.parse(workflow.steps) : []
+  // Handle steps - can be string or already parsed object
+  const steps = typeof workflow.steps === 'string'
+    ? JSON.parse(workflow.steps)
+    : (workflow.steps || [])
   const totalCredits = workflow.totalCredits || 0
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl bg-white dark:bg-gray-900">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">
+          <DialogTitle className="text-xl font-bold text-gray-900 dark:text-gray-100">
             Execute Workflow: {workflow.name}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {workflow.description || 'Run this workflow with your image'}
           </DialogDescription>
         </DialogHeader>

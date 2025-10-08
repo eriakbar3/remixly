@@ -25,7 +25,7 @@ import {
   BookOpen,
   Grid3x3,
   Sparkles,
-  History
+  Images
 } from 'lucide-react'
 
 export function Navbar() {
@@ -98,28 +98,10 @@ export function Navbar() {
                   <DropdownMenuContent align="start" className="w-56">
                     <Link href="/history">
                       <DropdownMenuItem>
-                        <History className="w-4 h-4 mr-2 text-blue-500" />
+                        <Images className="w-4 h-4 mr-2 text-blue-500" />
                         <div>
-                          <p className="font-medium">History</p>
-                          <p className="text-xs text-muted-foreground">View generations</p>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href="/workflows">
-                      <DropdownMenuItem>
-                        <Workflow className="w-4 h-4 mr-2 text-purple-500" />
-                        <div>
-                          <p className="font-medium">Workflows</p>
-                          <p className="text-xs text-muted-foreground">Automation</p>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href="/templates">
-                      <DropdownMenuItem>
-                        <LayoutTemplate className="w-4 h-4 mr-2 text-green-500" />
-                        <div>
-                          <p className="font-medium">Templates</p>
-                          <p className="text-xs text-muted-foreground">Pre-built workflows</p>
+                          <p className="font-medium">Gallery</p>
+                          <p className="text-xs text-muted-foreground">View your images</p>
                         </div>
                       </DropdownMenuItem>
                     </Link>
@@ -129,15 +111,6 @@ export function Navbar() {
                         <div>
                           <p className="font-medium">Prompt Guides</p>
                           <p className="text-xs text-muted-foreground">Learn prompting</p>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href="/tools/image-combiner">
-                      <DropdownMenuItem>
-                        <Grid3x3 className="w-4 h-4 mr-2 text-cyan-500" />
-                        <div>
-                          <p className="font-medium">Image Collage</p>
-                          <p className="text-xs text-muted-foreground">Free tool</p>
                         </div>
                       </DropdownMenuItem>
                     </Link>
@@ -170,13 +143,15 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:gap-4">
           {session ? (
             <>
-              {/* Credits Badge - Always visible */}
-              <div className="flex items-center gap-1 md:gap-2">
-                <Coins className="w-3 h-3 md:w-4 md:h-4 text-yellow-500" />
-                <Badge variant="secondary" className="text-xs">
-                  {session.user.credits || 0}
-                </Badge>
-              </div>
+              {/* Credits Badge - Always visible, clickable to buy more */}
+              <Link href="/credits">
+                <div className="flex items-center gap-1 md:gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                  <Coins className="w-3 h-3 md:w-4 md:h-4 text-yellow-500" />
+                  <Badge variant="secondary" className="text-xs">
+                    {session.user.credits || 0}
+                  </Badge>
+                </div>
+              </Link>
 
               {/* User info - Hidden on mobile */}
               <div className="hidden md:flex items-center gap-2">
@@ -206,7 +181,7 @@ export function Navbar() {
                   <div className="px-2 py-1.5 text-sm font-semibold">
                     {session.user.name || session.user.email}
                   </div>
-                  <Link href="/dashboard/credits">
+                  <Link href="/credits">
                     <DropdownMenuItem>
                       <Coins className="w-4 h-4 mr-2 text-yellow-500" />
                       Buy Credits
@@ -273,32 +248,14 @@ export function Navbar() {
               <p className="text-xs font-semibold text-muted-foreground mb-2">Tools</p>
               <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
-                  <History className="w-3 h-3 mr-2" />
-                  History
-                </Button>
-              </Link>
-              <Link href="/workflows" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
-                  <Workflow className="w-3 h-3 mr-2" />
-                  Workflows
-                </Button>
-              </Link>
-              <Link href="/templates" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
-                  <LayoutTemplate className="w-3 h-3 mr-2" />
-                  Templates
+                  <Images className="w-3 h-3 mr-2" />
+                  Gallery
                 </Button>
               </Link>
               <Link href="/prompt-guides" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
                   <BookOpen className="w-3 h-3 mr-2" />
                   Prompt Guides
-                </Button>
-              </Link>
-              <Link href="/tools/image-combiner" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" size="sm" className="w-full justify-start text-xs">
-                  <Grid3x3 className="w-3 h-3 mr-2" />
-                  Image Collage
                 </Button>
               </Link>
               <Link href="/tools/image-composer" onClick={() => setMobileMenuOpen(false)}>

@@ -52,23 +52,6 @@ const quickActions = [
     tools: ['Headshot Generator', 'Product Studio', 'Photobooth AI']
   },
   {
-    title: 'Templates & Resources',
-    description: 'Start with pre-built workflows',
-    icon: LayoutTemplate,
-    color: 'bg-orange-500',
-    href: '/templates',
-    tools: ['Browse Templates', 'Prompt Guides', 'Tutorials']
-  },
-  {
-    title: 'Image Collage',
-    description: 'Combine multiple images - no credits',
-    icon: Grid3x3,
-    color: 'bg-cyan-500',
-    href: '/tools/image-combiner',
-    tools: ['Grid Layouts', 'Collage', 'Free Tool'],
-    badge: 'FREE'
-  },
-  {
     title: 'AI Image Composer',
     description: 'Merge subject & product intelligently',
     icon: Sparkles,
@@ -269,7 +252,7 @@ export default function DashboardPage() {
             </h2>
             <Link href="/history">
               <Button variant="ghost" size="sm">
-                View All <ArrowRight className="w-4 h-4 ml-1" />
+                View Gallery <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
           </div>
@@ -298,10 +281,10 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-sm mb-1 capitalize">
-                        {job.type.replace(/_/g, ' ')}
+                        {job.jobType ? job.jobType.replace(/_/g, ' ') : 'AI Generation'}
                       </h4>
                       <p className="text-xs text-muted-foreground">
-                        {new Date(job.createdAt).toLocaleDateString()} • {job.creditsCost} credits
+                        {new Date(job.createdAt).toLocaleDateString()} • {job.creditsCost || 0} credits
                       </p>
                     </div>
                     <Badge variant={job.status === 'completed' ? 'default' : 'secondary'}>

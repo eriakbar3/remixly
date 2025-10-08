@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import {
-  History,
+  Images,
   Download,
   Trash2,
   Eye,
@@ -33,7 +33,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-export default function HistoryPage() {
+export default function GalleryPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [jobs, setJobs] = useState([])
@@ -123,7 +123,7 @@ export default function HistoryPage() {
 
   const filteredJobs = jobs.filter(job => {
     const matchesSearch =
-      getJobTypeLabel(job.jobType).toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (job.jobType && getJobTypeLabel(job.jobType).toLowerCase().includes(searchQuery.toLowerCase())) ||
       (job.id && job.id.toLowerCase().includes(searchQuery.toLowerCase()))
 
     const matchesFilter =
@@ -173,9 +173,9 @@ export default function HistoryPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2 md:gap-3">
-                <History className="w-6 h-6 md:w-8 md:h-8" />
-                <span className="hidden sm:inline">Generation History</span>
-                <span className="sm:hidden">History</span>
+                <Images className="w-6 h-6 md:w-8 md:h-8" />
+                <span className="hidden sm:inline">My Gallery</span>
+                <span className="sm:hidden">Gallery</span>
               </h1>
               <p className="text-xs md:text-sm text-muted-foreground mt-1 md:mt-2">
                 View and manage all your AI-generated images
@@ -267,17 +267,17 @@ export default function HistoryPage() {
         {filteredJobs.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <History className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No history found</h3>
+              <Images className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No images in gallery</h3>
               <p className="text-muted-foreground mb-4">
                 {searchQuery || filterStatus !== 'all'
                   ? 'No results match your filters'
-                  : 'Start creating AI images to see your history'}
+                  : 'Start creating AI images to build your gallery'}
               </p>
               {!searchQuery && filterStatus === 'all' && (
                 <Link href="/dashboard">
                   <Button>
-                    Get Started
+                    Create Your First Image
                   </Button>
                 </Link>
               )}
@@ -294,13 +294,14 @@ export default function HistoryPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-                  {dateJobs.map((job) => (
-                    <Card key={job.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  {dateJobs.map((job) => {
+                    console.log(job)
+                    return (<Card key={job.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                       <div className="aspect-square relative bg-muted">
                         {job.status === 'completed' && job.outputUrl ? (
                           <img
                             src={job.outputUrl}
-                            alt={getJobTypeLabel(job.jobType)}
+                            alt={job.type ? getJobTypeLabel(job.type) : 'Generated image'}
                             className="w-full h-full object-cover cursor-pointer"
                             onClick={() => handlePreview(job)}
                           />
@@ -309,9 +310,9 @@ export default function HistoryPage() {
                             {getStatusIcon(job.status)}
                           </div>
                         )}
-                        <div className="absolute top-2 right-2">
-                          <Badge variant="secondary" className="backdrop-blur-sm">
-                            {getJobTypeLabel(job.jobType)}
+                        <div className="absolute top-2 right-2 ">
+                          <Badge variant="secondary" className="bg-white">
+                            {job.type ? getJobTypeLabel(job.type) : 'Unknown'}
                           </Badge>
                         </div>
                       </div>
@@ -363,8 +364,8 @@ export default function HistoryPage() {
                           </Button>
                         </div>
                       </CardContent>
-                    </Card>
-                  ))}
+                    </Card>)
+                  })}
                 </div>
               </div>
             ))}
@@ -376,7 +377,9 @@ export default function HistoryPage() {
       <Dialog open={showPreview} onOpenChange={setShowPreview}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>{getJobTypeLabel(selectedJob?.jobType)}</DialogTitle>
+            <DialogTitle>
+              {selectedJob?.jobType ? getJobTypeLabel(selectedJob.jobType) : 'Generated Image'}
+            </DialogTitle>
             <DialogDescription>
               Created on {selectedJob && new Date(selectedJob.createdAt).toLocaleString()}
             </DialogDescription>

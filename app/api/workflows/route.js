@@ -46,7 +46,7 @@ export async function GET(req) {
       success: true,
       workflows: workflows.map(w => ({
         ...w,
-        steps: JSON.parse(w.steps),
+        steps: typeof w.steps === 'string' ? JSON.parse(w.steps) : (w.steps || []),
         executionCount: w._count.executions,
       })),
     })
@@ -94,7 +94,7 @@ export async function POST(req) {
       success: true,
       workflow: {
         ...workflow,
-        steps: JSON.parse(workflow.steps),
+        steps: typeof workflow.steps === 'string' ? JSON.parse(workflow.steps) : (workflow.steps || []),
       },
     })
   } catch (error) {

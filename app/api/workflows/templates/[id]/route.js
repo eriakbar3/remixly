@@ -42,7 +42,7 @@ export async function POST(req, { params }) {
       success: true,
       workflow: {
         ...workflow,
-        steps: JSON.parse(workflow.steps),
+        steps: typeof workflow.steps === 'string' ? JSON.parse(workflow.steps) : (workflow.steps || []),
       },
     })
   } catch (error) {
