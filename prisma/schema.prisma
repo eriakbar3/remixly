@@ -22,6 +22,9 @@ model User {
   image         String?
   role          String    @default("user") // user, admin
   credits       Int       @default(100) // Starting credits
+  registrationIp String?  // Track registration IP for fraud detection
+  lastLoginIp   String?   // Track last login IP
+  deviceFingerprint String? // Device fingerprint for fraud detection
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -31,6 +34,21 @@ model User {
   aiJobs        AIJob[]
   workflows     Workflow[]
   workflowExecutions WorkflowExecution[]
+}
+
+// Track registration attempts for abuse detection
+model RegistrationAttempt {
+  id          String   @id @default(cuid())
+  email       String
+  ipAddress   String
+  fingerprint String?
+  success     Boolean  @default(false)
+  reason      String?  // blocked_ip, blocked_email, suspicious, etc
+  createdAt   DateTime @default(now())
+
+  @@index([ipAddress])
+  @@index([email])
+  @@index([createdAt])
 }
 
 model Account {

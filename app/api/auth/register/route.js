@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 import { notifyNewUserRegistration } from '@/lib/telegram'
+import { getClientIp, checkRegistrationFraud, logRegistrationAttempt } from '@/lib/fraud-detection'
 
 export async function POST(request) {
   try {
@@ -14,12 +15,32 @@ export async function POST(request) {
       )
     }
 
+    // Get client IP for fraud detection
+    const ipAddress = getClientIp(request)
+
+    // Fraud detection check
+    const fraudCheck = await checkRegistrationFraud(email, ipAddress)
+    if (!fraudCheck.allowed) {
+      return NextResponse.json(
+        { error: fraudCheck.reason },
+        { status: 429 } // Too Many Requests
+      )
+    }
+
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email }
     })
 
     if (existingUser) {
+      // Log failed attempt
+      await logRegistrationAttempt({
+        email,
+        ipAddress,
+        success: false,
+        reason: 'email_already_exists'
+      })
+
       return NextResponse.json(
         { error: 'User already exists' },
         { status: 400 }
@@ -29,13 +50,15 @@ export async function POST(request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Create user with initial 100 credits
+    // Create user with initial 100 credits and track IP
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         credits: 100,
+        registrationIp: ipAddress,
+        lastLoginIp: ipAddress,
       }
     })
 
@@ -50,12 +73,21 @@ export async function POST(request) {
       }
     })
 
+    // Log successful registration
+    await logRegistrationAttempt({
+      email,
+      ipAddress,
+      success: true,
+      reason: null
+    })
+
     // Send Telegram notification (non-blocking)
     notifyNewUserRegistration({
       id: user.id,
       name: user.name,
       email: user.email,
-      credits: user.credits
+      credits: user.credits,
+      ip: ipAddress
     }).catch(error => {
       console.error('Failed to send Telegram notification:', error)
       // Don't fail registration if notification fails
