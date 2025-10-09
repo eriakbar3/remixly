@@ -152,12 +152,13 @@ export default function ProfessionalStudioPage() {
 
       {/* Tool Selection Tabs */}
       <Tabs value={selectedTool} onValueChange={setSelectedTool} className="mb-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="w-full">
           {Object.values(tools).map((tool) => (
-            <TabsTrigger key={tool.id} value={tool.id} className="gap-2">
-              <tool.icon className="w-4 h-4" />
-              {tool.name}
-              <Badge variant="secondary" className="ml-2 text-xs">
+            <TabsTrigger key={tool.id} value={tool.id} className="flex-1 gap-1 md:gap-2">
+              <tool.icon className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="hidden sm:inline">{tool.name}</span>
+              <span className="sm:hidden text-[10px]">{tool.name.split(' ')[0]}</span>
+              <Badge variant="secondary" className="ml-1 text-[10px] md:text-xs px-1">
                 {tool.credits}
               </Badge>
             </TabsTrigger>
