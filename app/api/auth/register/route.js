@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import { notifyNewUserRegistration } from '@/lib/telegram'
 
 export async function POST(request) {
   try {
@@ -47,6 +48,17 @@ export async function POST(request) {
         balance: 100,
         description: 'Welcome bonus - 100 free credits',
       }
+    })
+
+    // Send Telegram notification (non-blocking)
+    notifyNewUserRegistration({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      credits: user.credits
+    }).catch(error => {
+      console.error('Failed to send Telegram notification:', error)
+      // Don't fail registration if notification fails
     })
 
     return NextResponse.json({
