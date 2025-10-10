@@ -225,12 +225,12 @@ export default function LandingPage() {
             </div>
             <div className="flex items-center gap-3">
               <Link href="/auth/signin">
-                <Button variant="ghost" size="default" className="hidden sm:flex font-medium">
+                <Button variant="ghost" size="default" className="hidden sm:flex font-medium border-0">
                   Log In
                 </Button>
               </Link>
               <Link href="/auth/register">
-                <Button size="default" className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-500/25 font-semibold">
+                <Button size="default" className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-500/25 font-semibold border-0">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Get Started Free
                 </Button>
@@ -281,7 +281,7 @@ export default function LandingPage() {
               <Link href="/auth/register">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto text-lg px-10 py-7 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-2xl shadow-purple-500/30 font-bold rounded-2xl transform hover:scale-105 transition-all"
+                  className="w-full sm:w-auto text-lg px-10 py-7 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-2xl shadow-purple-500/30 font-bold rounded-2xl transform hover:scale-105 transition-all border-0"
                 >
                   <Zap className="w-6 h-6 mr-2" />
                   Get 100 Free Credits
@@ -292,7 +292,7 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto text-lg px-10 py-7 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 hover:border-purple-600 dark:hover:border-purple-400 font-bold rounded-2xl hover:shadow-xl transition-all"
+                  className="w-full sm:w-auto text-lg px-10 py-7 bg-white dark:bg-gray-900 border-0 hover:shadow-xl transition-all font-bold rounded-2xl"
                 >
                   Watch Demo
                   <Sparkles className="w-5 h-5 ml-2" />
@@ -636,7 +636,7 @@ export default function LandingPage() {
               <Link href="/auth/register">
                 <Button
                   size="lg"
-                  className="text-lg px-10 py-7 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-2xl shadow-purple-500/30 font-bold rounded-2xl transform hover:scale-105 transition-all"
+                  className="text-lg px-10 py-7 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-2xl shadow-purple-500/30 font-bold rounded-2xl transform hover:scale-105 transition-all border-0"
                 >
                   <Zap className="w-5 h-5 mr-2" />
                   Try All Features Free
@@ -851,7 +851,7 @@ export default function LandingPage() {
                     {/* CTA Button */}
                     <Link href="/credits">
                       <Button
-                        className={`w-full text-lg py-7 font-bold rounded-2xl transform hover:scale-105 transition-all shadow-lg ${
+                        className={`w-full text-lg py-7 font-bold rounded-2xl transform hover:scale-105 transition-all shadow-lg border-0 ${
                           plan.highlighted
                             ? 'bg-white text-purple-600 hover:bg-gray-100'
                             : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white shadow-purple-500/30'
@@ -896,7 +896,7 @@ export default function LandingPage() {
             <Link href="/auth/register">
               <Button
                 size="lg"
-                className="text-lg px-12 py-8 bg-white text-purple-600 hover:bg-gray-100 font-black rounded-2xl shadow-2xl transform hover:scale-105 transition-all"
+                className="text-lg px-12 py-8 bg-white text-purple-600 hover:bg-gray-100 font-black rounded-2xl shadow-2xl transform hover:scale-105 transition-all border-0"
               >
                 <Rocket className="w-6 h-6 mr-2" />
                 Register Now - It's Free

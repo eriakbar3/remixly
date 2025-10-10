@@ -8,12 +8,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-primary hover:border-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 border-2 border-destructive hover:border-destructive/90',
+        outline: 'border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border-2 border-secondary hover:border-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-accent',
         link: 'text-primary underline-offset-4 hover:underline',
+        // Landing page variants (no border)
+        'landing-primary': 'bg-primary text-primary-foreground hover:bg-primary/90',
+        'landing-secondary': 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        'landing-ghost': 'hover:bg-accent hover:text-accent-foreground',
       },
       size: {
         default: 'h-10 px-4 py-2',
