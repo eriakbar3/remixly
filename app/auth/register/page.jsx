@@ -56,6 +56,10 @@ export default function RegisterPage() {
       if (!res.ok) {
         setError(data.error || 'Registration failed')
       } else {
+        // Track Meta Pixel CompleteRegistration event
+        if (typeof window !== 'undefined' && window.fbq) {
+          window.fbq('track', 'CompleteRegistration')
+        }
         router.push('/auth/signin?registered=true')
       }
     } catch (err) {

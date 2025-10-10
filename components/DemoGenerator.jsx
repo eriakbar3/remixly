@@ -79,6 +79,16 @@ export function DemoGenerator() {
 
       setResult(data)
 
+      // Track Meta Pixel Lead event (demo image generated)
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead', {
+          content_name: 'Demo Image Generated',
+          content_category: 'Demo',
+          value: 0.00,
+          currency: 'USD'
+        })
+      }
+
       // Update attempts based on server response
       if (typeof data.remaining === 'number') {
         setAttemptsLeft(data.remaining)
@@ -134,7 +144,20 @@ export function DemoGenerator() {
                 {attemptsLeft} / {MAX_ATTEMPTS} free tries left
               </Badge>
               {attemptsLeft === 0 && (
-                <Link href="/auth/register">
+                <Link
+                  href="/auth/register"
+                  onClick={() => {
+                    // Track Meta Pixel InitiateCheckout event (user wants to sign up)
+                    if (typeof window !== 'undefined' && window.fbq) {
+                      window.fbq('track', 'InitiateCheckout', {
+                        content_name: 'Sign Up from Demo',
+                        content_category: 'Registration',
+                        value: 0.00,
+                        currency: 'USD'
+                      })
+                    }
+                  }}
+                >
                   <Badge className="bg-green-500 hover:bg-green-600 text-white cursor-pointer">
                     <Zap className="w-3 h-3 mr-1" />
                     Get 100 Free Credits
@@ -269,7 +292,20 @@ export function DemoGenerator() {
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                     Sign up now to get <strong className="text-gray-900 dark:text-white">100 free credits</strong> and unlock unlimited possibilities
                   </p>
-                  <Link href="/auth/register">
+                  <Link
+                    href="/auth/register"
+                    onClick={() => {
+                      // Track Meta Pixel InitiateCheckout event (user wants to sign up)
+                      if (typeof window !== 'undefined' && window.fbq) {
+                        window.fbq('track', 'InitiateCheckout', {
+                          content_name: 'Sign Up from Upgrade CTA',
+                          content_category: 'Registration',
+                          value: 0.00,
+                          currency: 'USD'
+                        })
+                      }
+                    }}
+                  >
                     <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                       <Zap className="w-4 h-4 mr-2" />
                       Sign Up - Get 100 Credits Free
